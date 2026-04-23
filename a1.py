@@ -7,9 +7,7 @@
 # Victor Vargas Gonzalez
 # vargasgv@uci.edu
 # 49403244
-
 from pathlib import Path
-
 
 
 def create_file(dir, file):
@@ -40,6 +38,14 @@ def delete_file(dir, file):
     print(p.resolve(), "DELETED")
     p.unlink()
 
+def read_file(dir, file):
+    p = Path(dir) / file
+    with open(p, 'r') as f:
+        if not f.read(1):
+            print('EMPTY')
+        else:
+            f.seek(0)
+            print(f.read())
 
 def run():
     action = input("Please enter an action (Enter C to create a new file, D to delete a file, "
@@ -47,29 +53,39 @@ def run():
     if action == "C":
         dir = input("Please enter the directory name: ")
         if not directory_exists(dir):
-            print("Error: Directory does not exist")
+            print("ERROR: Directory does not exist")
         else:
             file = input("Please enter the file name: ")
             file = file + ".dsu"
             if file_exists(dir, file):
-                print("Error: File already exists")
+                print("ERROR: File already exists")
             else:
                 create_file(dir, file)
 
     elif action == "D":
         dir = input("Please enter the directory name: ")
         if not directory_exists(dir):
-            print("Error: Directory does not exist")
+            print("ERROR: Directory does not exist")
         else:
             file = input("Please enter the file name: ")
             file = file + ".dsu"
             if not file_exists(dir, file):
-                print("Error: File does not exists")
+                print("ERROR: File does not exists")
             else:
                 delete_file(dir, file)
 
     elif action == "R":
-        pass
+        dir = input("Please enter the directory name: ")
+        if not directory_exists(dir):
+            print("ERROR: Directory does not exist")
+        else:
+            file = input("Please enter the file name: ")
+            file = file + ".dsu"
+            if not file_exists(dir, file):
+                print("ERROR: File does not exists")
+            else:
+                read_file(dir, file)
+
     elif action == "Q":
         print("Exiting file explorer")
         return
