@@ -50,8 +50,7 @@ def run():
                 print("Error: File already exists")
             else:
                 create_file(dir, file)
-                print(file.resolve())
-                
+
     elif action == "D":
         pass
     elif action == "R":
