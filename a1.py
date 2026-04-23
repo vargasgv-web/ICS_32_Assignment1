@@ -13,7 +13,6 @@ from pathlib import Path
 
 
 def create_file(dir, file):
-    file = file
     p = Path(dir) / file
     p.touch()
     print(p.resolve())
@@ -30,11 +29,17 @@ def directory_exists(dir):
         return False
 
 def file_exists(dir, file):
-    p = Path(dir).joinpath(file)
+    p = Path(dir) / file
     if p.exists():
         return True
     else:
         return False
+
+def delete_file(dir, file):
+    p = Path(dir) / file
+    print(p.resolve(), "DELETED")
+    p.unlink()
+
 
 def run():
     action = input("Please enter an action (Enter C to create a new file, D to delete a file, "
@@ -52,7 +57,17 @@ def run():
                 create_file(dir, file)
 
     elif action == "D":
-        pass
+        dir = input("Please enter the directory name: ")
+        if not directory_exists(dir):
+            print("Error: Directory does not exist")
+        else:
+            file = input("Please enter the file name: ")
+            file = file + ".dsu"
+            if not file_exists(dir, file):
+                print("Error: File does not exists")
+            else:
+                delete_file(dir, file)
+
     elif action == "R":
         pass
     elif action == "Q":
