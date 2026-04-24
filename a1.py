@@ -15,10 +15,6 @@ def create_file(dir, file):
     p.touch()
     print(p.resolve())
 
-def create_directory(dir):
-    p = Path(dir)
-    p.mkdir(parents=True)
-
 def directory_exists(dir):
     p = Path(dir)
     if p.exists():
@@ -47,22 +43,26 @@ def read_file(dir, file):
             f.seek(0)
             print(f.read())
 
-def run():
-    action = input("Please enter an action (Enter C to create a new file, D to delete a file, "
-                   "R to read a file, or Q to quit): ")
-    if action == "C":
-        dir = input("Please enter the directory name: ")
-        if not directory_exists(dir):
-            print("ERROR: Directory does not exist")
-        else:
-            file = input("Please enter the file name: ")
-            file = file + ".dsu"
-            if file_exists(dir, file):
-                print("ERROR: File already exists")
-            else:
-                create_file(dir, file)
 
-    elif action == "D":
+def run():
+    action = input("Enter your file command: ")
+    action_list = action.split()
+
+    if action_list[0] == "C":
+        if len(action_list) == 4:
+            if not directory_exists(action_list[1]):
+                print("ERROR: directory does not exist")
+            else:
+                file = action_list[3]
+                file = file + ".dsu"
+                if file_exists(action_list[1], file):
+                    print("ERROR: File already exists")
+                else:
+                    create_file(action_list[1], file)
+        else:
+            print("ERROR: incorrect format for C")
+
+    elif action_list[0] == "D":
         dir = input("Please enter the directory name: ")
         if not directory_exists(dir):
             print("ERROR: Directory does not exist")
@@ -74,7 +74,7 @@ def run():
             else:
                 delete_file(dir, file)
 
-    elif action == "R":
+    elif action_list[0] == "R":
         dir = input("Please enter the directory name: ")
         if not directory_exists(dir):
             print("ERROR: Directory does not exist")
@@ -86,14 +86,15 @@ def run():
             else:
                 read_file(dir, file)
 
-    elif action == "Q":
+    elif action_list[0] == "Q":
         print("Exiting file explorer")
         return
+
     else:
-        print("Invalid action")
+        print("ERROR")
     run()
 
 if __name__ == '__main__':
 
-    print("Welcome to this basic file explorer! \n")
+    #print("Welcome to this basic file explorer! \n")
     run()
