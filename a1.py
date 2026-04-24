@@ -44,11 +44,13 @@ def delete_file(file):
 def read_file(file):
     p = Path(file)
     with open(p, 'r') as f:
-        if not f.read(1):
-            print('EMPTY')
+        if f.read() == "":
+            f.seek(0)
+            print("EMPTY")
         else:
             f.seek(0)
-            print(f.read())
+            text = f.read().strip()
+            print(text)
 
 def dsu_check(file):
     My_file = Path(file)
@@ -61,7 +63,6 @@ def run():
     #action = input("Enter your file command (Q to exit): \n")
     action = input()
     action_list = action.split()
-
     if action_list[0] == "C":
         if len(action_list) == 4:
             if not directory_exists(action_list[1]):
@@ -70,7 +71,7 @@ def run():
                 file = action_list[3]
                 file = file + ".dsu"
                 if file_exists_create(action_list[1], file):
-                    print("ERROR")
+                    print("ERROR: exists")
                 else:
                     create_file(action_list[1], file)
         else:
@@ -103,7 +104,7 @@ def run():
             print("ERROR")
 
     elif action_list[0] == "Q":
-        print("Exiting file explorer")
+        #print("Exiting file explorer")
         return
 
     else:
