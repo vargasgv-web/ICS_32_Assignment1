@@ -29,8 +29,15 @@ def file_exists(dir, file):
     else:
         return False
 
-def delete_file(dir, file):
-    p = Path(dir) / file
+def file_exists2(file):
+    p = Path(file)
+    if p.exists():
+        return True
+    else:
+        return False
+
+def delete_file(file):
+    p = Path(file)
     print(p.resolve(), "DELETED")
     p.unlink()
 
@@ -43,9 +50,15 @@ def read_file(dir, file):
             f.seek(0)
             print(f.read())
 
+def dsu_check(file):
+    My_file = Path(file)
+    if My_file.suffix == ".dsu":
+        return True
+    else:
+        return False
 
 def run():
-    action = input("Enter your file command: ")
+    action = input("Enter your file command (Q to exit): ")
     action_list = action.split()
 
     if action_list[0] == "C":
@@ -63,16 +76,17 @@ def run():
             print("ERROR: incorrect format for C")
 
     elif action_list[0] == "D":
-        dir = input("Please enter the directory name: ")
-        if not directory_exists(dir):
-            print("ERROR: Directory does not exist")
-        else:
-            file = input("Please enter the file name: ")
-            file = file + ".dsu"
-            if not file_exists(dir, file):
-                print("ERROR: File does not exists")
+        if len(action_list) == 2:
+            file = action_list[1]
+            if dsu_check(file):
+                if not file_exists2(file):
+                    print("ERROR: File does not exists")
+                else:
+                    delete_file(file)
             else:
-                delete_file(dir, file)
+                print("ERROR: not a dsu file")
+        else:
+            print("ERROR: incorrect format for D")
 
     elif action_list[0] == "R":
         dir = input("Please enter the directory name: ")
@@ -91,7 +105,7 @@ def run():
         return
 
     else:
-        print("ERROR")
+        print("ERROR: Not an available command")
     run()
 
 if __name__ == '__main__':
