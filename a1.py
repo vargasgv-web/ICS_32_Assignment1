@@ -60,7 +60,6 @@ def dsu_check(file):
         return False
 
 def run():
-    #action = input("Enter your file command (Q to exit): \n")
     action = input()
     action_list = action.split()
     if action_list[0] == "C":
@@ -71,7 +70,7 @@ def run():
                 file = action_list[3]
                 file = file + ".dsu"
                 if file_exists_create(action_list[1], file):
-                    print("ERROR: exists")
+                    print("ERROR")
                 else:
                     create_file(action_list[1], file)
         else:
@@ -104,7 +103,6 @@ def run():
             print("ERROR")
 
     elif action_list[0] == "Q":
-        #print("Exiting file explorer")
         return
 
     else:
@@ -113,5 +111,4 @@ def run():
 
 if __name__ == '__main__':
 
-    #print("Welcome to this basic file explorer! \n")
     run()
